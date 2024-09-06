@@ -8,25 +8,54 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background: linear-gradient(135deg, #1e1e1e, #3a3a3a);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            overflow-x: hidden;
+            cursor: none; /* Hide default cursor */
+        }
+
+        .cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.8);
+            pointer-events: none;
+            transition: transform 0.1s ease, background-color 0.3s ease;
+            z-index: 10000;
+        }
+
+        .cursor::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            background-color: #555;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
         }
 
         /* Header section */
         .header {
             background-color: black;
             color: white;
-            padding: 20px;
-            width: 100%;
-            box-sizing: border-box; /* Ensures padding is included in the width */
-            position: relative;
-            z-index: 1;
+            padding: 10px 20px;
             display: flex;
-            justify-content: space-between; /* Space out items */
+            justify-content: space-between;
             align-items: center;
-            max-width: 100vw; /* Prevent overflow */
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-sizing: border-box;
         }
 
         .header .left-section {
@@ -34,12 +63,13 @@
             align-items: center;
         }
 
-        .header .title-box {
+        .title-box {
             border: 2px solid white;
-            padding: 10px;
+            display: inline-block;
+            padding: 12px 20px;
             cursor: pointer;
-            flex-shrink: 0; /* Prevent shrinking */
-            width: auto;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+            margin-right: 15px;
         }
 
         .header h1 {
@@ -47,141 +77,139 @@
             font-size: 24px;
         }
 
-        .header .buy-assets-text {
+        .header .where-to-buy {
             color: white;
-            font-size: 18px;
-            text-decoration: underline;
+            font-size: 16px;
             cursor: pointer;
-            margin-left: 15px;
+            margin-right: 15px;
         }
 
+        .header .where-to-buy:hover {
+            color: #f0f0f0;
+        }
+
+        /* Discord Button Styling */
         .header .discord-button {
-            background-color: #7289da; /* Discord blue */
+            background-color: #5865F2; /* Blue color for Discord button */
             color: white;
+            font-size: 16px;
+            cursor: pointer;
             padding: 10px 20px;
             border-radius: 5px;
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            flex-shrink: 0; /* Prevent shrinking */
+            text-align: center;
+            transition: background-color 0.3s ease;
         }
 
         .header .discord-button:hover {
-            background-color: #5b6eae; /* Darker blue on hover */
+            background-color: #4752C4; /* Darker blue on hover */
         }
 
-        /* Main menu section */
-        .main-menu {
-            padding: 20px;
-            text-align: center;
-            position: relative;
-            z-index: 2;
-            margin-top: 60px; /* To ensure content is below header */
-            flex: 1;
-            display: block;
-        }
-
-        /* Content section */
-        .content {
-            padding: 20px;
-            text-align: center;
-            position: relative;
-            z-index: 2;
-            margin-top: 60px; /* To ensure content is below header */
-            flex: 1;
-            display: none; /* Hide initially */
-        }
-
-        .box-container {
-            display: flex;
-            justify-content: center; /* Center the boxes horizontally */
-            flex-wrap: wrap; /* Allow wrapping on smaller screens */
-            gap: 20px; /* Space between boxes */
-            margin-top: 20px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .box-container a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .box {
-            background-color: #333;
-            color: white;
-            width: 22.5vw;  /* 30vw * 0.75 = 22.5vw */
-            height: 22.5vw; /* 30vw * 0.75 = 22.5vw */
-            text-align: center;
+        /* Button styles */
+        .menu-box {
+            width: 300px;
+            height: 300px;
+            margin: 15px;
+            background-color: white;
             border-radius: 10px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s;
-            cursor: pointer;
+            text-align: center;
+            box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.6);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .box h2 {
-            margin: 0;
-            font-size: 22px;
-        }
-
-        .box p {
-            font-size: 18px;
-        }
-
-        /* Hover effect */
-        .box:hover {
+        .menu-box:hover {
             transform: scale(1.1);
+            box-shadow: 6px 6px 20px rgba(0, 0, 0, 0.8);
         }
 
-        /* Ensure the boxes stack vertically on smaller screens */
-        @media (max-width: 768px) {
-            .box-container {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .box {
-                margin-bottom: 20px;
-            }
+        /* Layout */
+        .main-menu {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            margin-top: 80px;
+            z-index: 0;
         }
 
-        /* Credits section */
-        .credits {
+        /* Content boxes for descriptions */
+        .description-container {
+            display: none;
+            padding: 20px;
+            color: white;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            margin-top: 80px;
+            max-height: 70vh; /* Set a maximum height for scrolling */
+            overflow-y: auto; /* Enable vertical scrolling */
+        }
+
+        /* Custom scrollbar styles */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #333; /* Track color */
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #555; /* Handle color */
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #777; /* Handle color on hover */
+        }
+
+        /* Footer */
+        .footer {
             background-color: black;
             color: white;
             text-align: center;
-            padding: 10px;
-            position: relative;
             width: 100%;
-            margin-top: auto;
-            box-sizing: border-box; /* Ensures padding is included in the width */
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+            box-sizing: border-box;
+            transition: height 0.5s ease, padding 0.5s ease;
+            height: 50px; /* Initial minimized height */
+            overflow: hidden;
         }
 
-        .credits p {
-            margin: 0;
+        .footer h2 {
+            margin: 10px 0;
         }
 
-        /* Description sections */
-        .description-container {
-            display: none; /* Hide by default */
-            margin-top: 20px;
+        .footer:hover {
+            height: 300px; /* Expanded height */
+            padding: 20px;
         }
 
-        .description-container h3 {
-            margin: 0;
-            font-size: 22px;
+        .footer-content {
+            display: none;
+            max-height: 200px;
+            overflow-y: auto;
+            text-align: left;
+            margin-top: 10px;
+            color: white;
+            font-size: 14px;
+            line-height: 1.6;
         }
 
-        .description-container p {
-            font-size: 18px;
+        .footer:hover .footer-content {
+            display: block;
         }
+
     </style>
 </head>
 <body>
@@ -189,101 +217,101 @@
     <!-- Header section -->
     <div class="header">
         <div class="left-section">
-            <div class="title-box" onclick="showMainMenu()"> <!-- Make the entire box clickable -->
+            <div class="title-box" onclick="showMainMenu()">
                 <h1>SHADOWFIRE GAMES</h1>
             </div>
-            <div class="buy-assets-text" onclick="showDescription('BuyAssets')">
-                Where to Buy Assets
+            <div class="where-to-buy" onclick="showDescription('buy-assets')">Where to Buy Assets</div>
+        </div>
+        <div class="discord-button" onclick="window.location.href='https://discord.gg/your-invite-code';">Discord Server</div>
+    </div>
+
+    <!-- Main content -->
+    <div class="main-menu">
+        <div class="menu-box" onclick="showDescription('sge')">
+            <h2>SGE</h2>
+            <p>Shadowfire Gun Engine</p>
+        </div>
+        <div class="menu-box" onclick="showDescription('spe')">
+            <h2>SPE</h2>
+            <p>Shadowfire Physics Engine</p>
+        </div>
+        <div class="menu-box" onclick="showDescription('bundle')">
+            <h2>SGE and SPE bundle</h2>
+            <p>Bundle of SGE and SPE</p>
+        </div>
+    </div>
+
+    <!-- Description containers -->
+    <div id="sge" class="description-container">
+        <h2>Shadowfire Gun Engine</h2>
+        <p>This is the description for Shadowfire Gun Engine. You can type the details here.</p>
+    </div>
+    <div id="spe" class="description-container">
+        <h2>Shadowfire Physics Engine</h2>
+        <p>This is the description for Shadowfire Physics Engine. You can type the details here.</p>
+    </div>
+    <div id="bundle" class="description-container">
+        <h2>SGE and SPE bundle</h2>
+        <p>This is the description for the SGE and SPE bundle. You can type the details here.</p>
+    </div>
+    <div id="buy-assets" class="description-container">
+        <h2>Where to Buy Assets</h2>
+        <p>This page will guide you on where to buy Shadowfire assets. Follow these steps:</p>
+        <ol>
+            <li>Visit our official asset store.</li>
+            <li>Search for the asset you want to purchase.</li>
+            <li>Add the asset to your cart and proceed to checkout.</li>
+            <li>Complete the payment process.</li>
+            <li>Download your purchased assets from your account.</li>
+        </ol>
+    </div>
+    <div id="discord" class="description-container">
+        <h2>Discord Server</h2>
+        <p>This is where you can provide details about your Discord server.</p>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <h2>Credits:</h2>
+        <div class="footer-content">
+            <div>
+                <strong>Developer 1</strong>
+                <p>Description of what Developer 1 did.</p>
             </div>
+            <div>
+                <strong>Developer 2</strong>
+                <p>Description of what Developer 2 did.</p>
+            </div>
+            <div>
+                <strong>Developer 3</strong>
+                <p>Description of what Developer 3 did.</p>
+            </div>
+            <!-- Add more developers as needed -->
         </div>
-        <a href="https://discord.gg/your-invite-code" target="_blank" class="discord-button">Discord Server</a>
-    </div>
-
-    <!-- Main menu section -->
-    <div id="main-menu" class="main-menu">
-        <h2>Welcome to Shadowfire Games Documentation</h2>
-        <p>This is where you will find all the relevant information and documentation for our products and assets.</p>
-        
-        <!-- Boxes section -->
-        <div class="box-container">
-            <a href="#" onclick="showDescription('SGE')">
-                <div class="box">
-                    <h2>SGE</h2>
-                    <p>Shadowfire Gun Engine</p>
-                </div>
-            </a>
-
-            <a href="#" onclick="showDescription('SPE')">
-                <div class="box">
-                    <h2>SPE</h2>
-                    <p>Shadowfire Physics Engine</p>
-                </div>
-            </a>
-
-            <a href="#" onclick="showDescription('Bundle')">
-                <div class="box">
-                    <h2>SGE and SPE Bundle</h2>
-                    <p>Complete Package</p>
-                </div>
-            </a>
-        </div>
-    </div>
-
-    <!-- Content section -->
-    <div id="content" class="content">
-        <div id="description-container" class="description-container">
-            <h3>Description for SGE</h3>
-            <p>This is where you can type the description for Shadowfire Gun Engine. This content is directly added in the HTML and will be visible to users.</p>
-        </div>
-        <div id="description-container-spe" class="description-container">
-            <h3>Description for SPE</h3>
-            <p>This is where you can type the description for Shadowfire Physics Engine. This content is directly added in the HTML and will be visible to users.</p>
-        </div>
-        <div id="description-container-bundle" class="description-container">
-            <h3>Description for SGE and SPE Bundle</h3>
-            <p>This is where you can type the description for the SGE and SPE Bundle. This content is directly added in the HTML and will be visible to users.</p>
-        </div>
-        <div id="description-container-buyassets" class="description-container">
-            <h3>Where to Buy Assets</h3>
-            <p>Provide instructions on how and where users can purchase the assets. You can update this text in the HTML file as needed.</p>
-        </div>
-    </div>
-
-    <!-- Credits section -->
-    <div class="credits">
-        <p>Credits: [Name 1], [Name 2], [Name 3]</p>
     </div>
 
     <script>
-        function showDescription(type) {
-            // Hide main menu and show the relevant description
-            document.getElementById('main-menu').style.display = 'none';
-            document.getElementById('content').style.display = 'block';
-            
-            // Hide all description containers
+        const cursor = document.createElement('div');
+        cursor.className = 'cursor';
+        document.body.appendChild(cursor);
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+        });
+
+        function showDescription(id) {
             document.querySelectorAll('.description-container').forEach(container => {
                 container.style.display = 'none';
             });
-
-            // Show the relevant description container
-            if (type === 'SGE') {
-                document.getElementById('description-container').style.display = 'block';
-            } else if (type === 'SPE') {
-                document.getElementById('description-container-spe').style.display = 'block';
-            } else if (type === 'Bundle') {
-                document.getElementById('description-container-bundle').style.display = 'block';
-            } else if (type === 'BuyAssets') {
-                document.getElementById('description-container-buyassets').style.display = 'block';
-            }
+            document.getElementById(id).style.display = 'block';
+            document.querySelector('.main-menu').style.display = 'none';
         }
 
         function showMainMenu() {
-            // Hide content and show main menu
-            document.getElementById('content').style.display = 'none';
             document.querySelectorAll('.description-container').forEach(container => {
                 container.style.display = 'none';
             });
-            document.getElementById('main-menu').style.display = 'block';
+            document.querySelector('.main-menu').style.display = 'flex';
         }
     </script>
 
