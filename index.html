@@ -29,25 +29,30 @@
             max-width: 100vw; /* Prevent overflow */
         }
 
+        .header .left-section {
+            display: flex;
+            align-items: center;
+        }
+
         .header .title-box {
             border: 2px solid white;
             padding: 10px;
             cursor: pointer;
             flex-shrink: 0; /* Prevent shrinking */
-        }
-
-        .header .title-box a {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            height: 100%;
-            width: 100%;
-            box-sizing: border-box;
+            width: auto;
         }
 
         .header h1 {
             margin: 0;
             font-size: 24px;
+        }
+
+        .header .buy-assets-text {
+            color: white;
+            font-size: 18px;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-left: 15px;
         }
 
         .header .discord-button {
@@ -183,12 +188,15 @@
 
     <!-- Header section -->
     <div class="header">
-        <div class="title-box">
-            <a href="#" onclick="showMainMenu()"> <!-- Make only the title-box clickable -->
+        <div class="left-section">
+            <div class="title-box" onclick="showMainMenu()"> <!-- Make the entire box clickable -->
                 <h1>SHADOWFIRE GAMES</h1>
-            </a>
+            </div>
+            <div class="buy-assets-text" onclick="showDescription('BuyAssets')">
+                Where to Buy Assets
+            </div>
         </div>
-        <a href="https://discord.gg/53kv23EGjp" target="_blank" class="discord-button">Discord Server</a>
+        <a href="https://discord.gg/your-invite-code" target="_blank" class="discord-button">Discord Server</a>
     </div>
 
     <!-- Main menu section -->
@@ -224,22 +232,26 @@
     <!-- Content section -->
     <div id="content" class="content">
         <div id="description-container" class="description-container">
-            <h3>Shadowfire Gun Engine</h3>
+            <h3>Description for SGE</h3>
             <p>This is where you can type the description for Shadowfire Gun Engine. This content is directly added in the HTML and will be visible to users.</p>
         </div>
         <div id="description-container-spe" class="description-container">
-            <h3>Shadowfire Physics Engine</h3>
+            <h3>Description for SPE</h3>
             <p>This is where you can type the description for Shadowfire Physics Engine. This content is directly added in the HTML and will be visible to users.</p>
         </div>
         <div id="description-container-bundle" class="description-container">
-            <h3>SGE and SPE Bundle</h3>
+            <h3>Description for SGE and SPE Bundle</h3>
             <p>This is where you can type the description for the SGE and SPE Bundle. This content is directly added in the HTML and will be visible to users.</p>
+        </div>
+        <div id="description-container-buyassets" class="description-container">
+            <h3>Where to Buy Assets</h3>
+            <p>Provide instructions on how and where users can purchase the assets. You can update this text in the HTML file as needed.</p>
         </div>
     </div>
 
     <!-- Credits section -->
     <div class="credits">
-        <p>Credits: abecybyto, proguy080808, medgodo</p>
+        <p>Credits: [Name 1], [Name 2], [Name 3]</p>
     </div>
 
     <script>
@@ -260,6 +272,8 @@
                 document.getElementById('description-container-spe').style.display = 'block';
             } else if (type === 'Bundle') {
                 document.getElementById('description-container-bundle').style.display = 'block';
+            } else if (type === 'BuyAssets') {
+                document.getElementById('description-container-buyassets').style.display = 'block';
             }
         }
 
