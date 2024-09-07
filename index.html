@@ -13,35 +13,9 @@
             flex-direction: column;
             min-height: 100vh;
             overflow-x: hidden;
-            cursor: none; /* Hide default cursor */
+            cursor: none; /* Hide the default cursor */
         }
 
-        .cursor {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.8);
-            pointer-events: none;
-            transition: transform 0.1s ease, background-color 0.3s ease;
-            z-index: 10000;
-        }
-
-        .cursor::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 10px;
-            height: 10px;
-            background-color: #555;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        /* Header section */
         .header {
             background-color: black;
             color: white;
@@ -77,34 +51,46 @@
             font-size: 24px;
         }
 
-        .header .where-to-buy {
+        .header .link {
             color: white;
             font-size: 16px;
-            cursor: pointer;
             margin-right: 15px;
+            cursor: pointer;
+            text-decoration: underline;
+            padding: 5px;
         }
 
-        .header .where-to-buy:hover {
+        .header .link:hover {
             color: #f0f0f0;
         }
 
-        /* Discord Button Styling */
-        .header .discord-button {
-            background-color: #5865F2; /* Blue color for Discord button */
+        .discord-button {
+            background-color: #5865F2; /* Discord color */
             color: white;
-            font-size: 16px;
-            cursor: pointer;
-            padding: 10px 20px;
+            padding: 10px 15px; /* Increased height */
             border-radius: 5px;
-            text-align: center;
+            cursor: pointer;
+            text-decoration: none;
             transition: background-color 0.3s ease;
+            font-size: 16px;
         }
 
-        .header .discord-button:hover {
-            background-color: #4752C4; /* Darker blue on hover */
+        .discord-button:hover {
+            background-color: #4752C4; /* Darker shade */
         }
 
-        /* Button styles */
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            padding: 20px;
+            text-align: center;
+            margin-top: 80px;
+            overflow: hidden; /* Ensure that content doesn't overflow */
+        }
+
         .menu-box {
             width: 300px;
             height: 300px;
@@ -125,51 +111,42 @@
             box-shadow: 6px 6px 20px rgba(0, 0, 0, 0.8);
         }
 
-        /* Layout */
-        .main-menu {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            flex: 1;
-            padding: 20px;
-            text-align: center;
-            margin-top: 80px;
-            z-index: 0;
-        }
-
-        /* Content boxes for descriptions */
-        .description-container {
+        .description-page {
             display: none;
+            width: 100%;
             padding: 20px;
+            background-color: #222;
             color: white;
-            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
             position: relative;
-            z-index: 10;
-            margin-top: 80px;
-            max-height: 70vh; /* Set a maximum height for scrolling */
-            overflow-y: auto; /* Enable vertical scrolling */
+            overflow-y: auto;
+            max-height: calc(100vh - 130px); /* Adjust for header and footer height */
         }
 
-        /* Custom scrollbar styles */
-        ::-webkit-scrollbar {
-            width: 10px;
+        .description-page h2 {
+            margin-top: 0;
         }
 
-        ::-webkit-scrollbar-track {
-            background: #333; /* Track color */
+        .description-page.active {
+            display: block;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: #555; /* Handle color */
+        .description-page button {
+            background-color: #5865F2; /* Discord color */
+            color: white;
+            padding: 10px 15px;
             border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: #777; /* Handle color on hover */
+        .description-page button:hover {
+            background-color: #4752C4; /* Darker shade */
         }
 
-        /* Footer */
         .footer {
             background-color: black;
             color: white;
@@ -182,7 +159,7 @@
             z-index: 1000;
             box-sizing: border-box;
             transition: height 0.5s ease, padding 0.5s ease;
-            height: 50px; /* Initial minimized height */
+            height: 50px;
             overflow: hidden;
         }
 
@@ -191,7 +168,7 @@
         }
 
         .footer:hover {
-            height: 300px; /* Expanded height */
+            height: 300px;
             padding: 20px;
         }
 
@@ -210,6 +187,29 @@
             display: block;
         }
 
+        /* Custom Cursor Styles */
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: white;
+            border: 2px solid grey;
+            pointer-events: none;
+            z-index: 1001; /* Ensure it's above other elements */
+            transition: background-color 0.3s ease;
+        }
+
+        .trail {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+            z-index: 1000; /* Ensure it's behind the custom cursor */
+            transition: background-color 0.3s ease;
+        }
     </style>
 </head>
 <body>
@@ -220,13 +220,13 @@
             <div class="title-box" onclick="showMainMenu()">
                 <h1>SHADOWFIRE GAMES</h1>
             </div>
-            <div class="where-to-buy" onclick="showDescription('buy-assets')">Where to Buy Assets</div>
+            <div class="link" onclick="showDescription('buy-assets')">Where to Buy Assets</div>
         </div>
-        <div class="discord-button" onclick="window.location.href='https://discord.gg/your-invite-code';">Discord Server</div>
+        <a href="https://discord.gg/your-invite-code" class="discord-button">Discord Server</a>
     </div>
 
     <!-- Main content -->
-    <div class="main-menu">
+    <div class="main-content">
         <div class="menu-box" onclick="showDescription('sge')">
             <h2>SGE</h2>
             <p>Shadowfire Gun Engine</p>
@@ -239,81 +239,101 @@
             <h2>SGE and SPE bundle</h2>
             <p>Bundle of SGE and SPE</p>
         </div>
-    </div>
 
-    <!-- Description containers -->
-    <div id="sge" class="description-container">
-        <h2>Shadowfire Gun Engine</h2>
-        <p>This is the description for Shadowfire Gun Engine. You can type the details here.</p>
-    </div>
-    <div id="spe" class="description-container">
-        <h2>Shadowfire Physics Engine</h2>
-        <p>This is the description for Shadowfire Physics Engine. You can type the details here.</p>
-    </div>
-    <div id="bundle" class="description-container">
-        <h2>SGE and SPE bundle</h2>
-        <p>This is the description for the SGE and SPE bundle. You can type the details here.</p>
-    </div>
-    <div id="buy-assets" class="description-container">
-        <h2>Where to Buy Assets</h2>
-        <p>This page will guide you on where to buy Shadowfire assets. Follow these steps:</p>
-        <ol>
-            <li>Visit our official asset store.</li>
-            <li>Search for the asset you want to purchase.</li>
-            <li>Add the asset to your cart and proceed to checkout.</li>
-            <li>Complete the payment process.</li>
-            <li>Download your purchased assets from your account.</li>
-        </ol>
-    </div>
-    <div id="discord" class="description-container">
-        <h2>Discord Server</h2>
-        <p>This is where you can provide details about your Discord server.</p>
+        <!-- Description pages -->
+        <div id="sge" class="description-page">
+            <h2>Shadowfire Gun Engine</h2>
+            <p>This is the description for Shadowfire Gun Engine. You can type the details here.</p>            
+            <button onclick="hideDescription()">Close</button>
+        </div>
+
+        <div id="spe" class="description-page">
+            <h2>Shadowfire Physics Engine</h2>
+            <p>This is the description for Shadowfire Physics Engine. You can type the details here.</p>
+            <button onclick="hideDescription()">Close</button>
+        </div>
+
+        <div id="bundle" class="description-page">
+            <h2>SGE and SPE bundle</h2>
+            <p>This is the description for the SGE and SPE bundle. You can type the details here.</p>
+            <button onclick="hideDescription()">Close</button>
+        </div>
+
+        <div id="buy-assets" class="description-page">
+            <h2>Where to Buy Assets</h2>
+            <p>This is where you can provide a step-by-step guide on where to buy the assets.</p>
+            <button onclick="hideDescription()">Close</button>
+        </div>
     </div>
 
     <!-- Footer -->
     <div class="footer">
-        <h2>Credits:</h2>
+        <h2>Credits</h2>
         <div class="footer-content">
             <div>
                 <strong>Developer 1</strong>
-                <p>Description of what Developer 1 did.</p>
+                <p>Description of Developer 1's role in the project.</p>
             </div>
             <div>
                 <strong>Developer 2</strong>
-                <p>Description of what Developer 2 did.</p>
+                <p>Description of Developer 2's role in the project.</p>
             </div>
             <div>
                 <strong>Developer 3</strong>
-                <p>Description of what Developer 3 did.</p>
+                <p>Description of Developer 3's role in the project.</p>
             </div>
-            <!-- Add more developers as needed -->
+            <!-- Add more credits as needed -->
         </div>
     </div>
 
     <script>
-        const cursor = document.createElement('div');
-        cursor.className = 'cursor';
-        document.body.appendChild(cursor);
+        document.addEventListener('mousemove', function(e) {
+            const cursor = document.querySelector('.custom-cursor');
+            cursor.style.left = `${e.pageX}px`;
+            cursor.style.top = `${e.pageY}px`;
 
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+            const trail = document.createElement('div');
+            trail.className = 'trail';
+            trail.style.left = `${e.pageX}px`;
+            trail.style.top = `${e.pageY}px`;
+            document.body.appendChild(trail);
+
+            setTimeout(() => {
+                trail.remove();
+            }, 1000);
         });
 
         function showDescription(id) {
-            document.querySelectorAll('.description-container').forEach(container => {
-                container.style.display = 'none';
+            document.querySelectorAll('.description-page').forEach(function(page) {
+                page.classList.remove('active');
             });
-            document.getElementById(id).style.display = 'block';
-            document.querySelector('.main-menu').style.display = 'none';
+
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.menu-box').forEach(function(box) {
+                box.style.display = 'none';
+            });
+        }
+
+        function hideDescription() {
+            document.querySelectorAll('.description-page').forEach(function(page) {
+                page.classList.remove('active');
+            });
+
+            document.querySelectorAll('.menu-box').forEach(function(box) {
+                box.style.display = 'flex';
+            });
         }
 
         function showMainMenu() {
-            document.querySelectorAll('.description-container').forEach(container => {
-                container.style.display = 'none';
+            document.querySelectorAll('.description-page').forEach(function(page) {
+                page.classList.remove('active');
             });
-            document.querySelector('.main-menu').style.display = 'flex';
+
+            document.querySelectorAll('.menu-box').forEach(function(box) {
+                box.style.display = 'flex';
+            });
         }
     </script>
-
+    <div class="custom-cursor"></div>
 </body>
 </html>
